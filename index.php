@@ -5,6 +5,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-image: url("https://pixabay.com/get/gb041c99819b3149fd2883df47fcf933feccc67ae482cd7e701173eb83fae562e091e353e0acaccdb2aadfafb733f58e2e0742655cc6e4713fc1898f4de296aeef991cb5c45bc790183c5952faf173a07_1280.jpg");
       background-color: #f5f5f5;
       padding: 20px;
     }
@@ -50,7 +51,7 @@
   </style>
 </head>
 <body>
-  <h2>Gold Grid Registration Form</h2>
+  <h2>Azubi_Team_Github Registration Form</h2>
   <form action="/submit" method="post">
     <label for="fullname">Full Name:</label>
     <input type="text" id="fullname" name="fullname" required>
@@ -86,6 +87,7 @@ require 'vendor/autoload.php';
 use Aws\DynamoDb\DynamoDbClient;
 
 // Set up AWS credentials and region
+
 $credentials = new Aws\Credentials\Credentials('Aaccesskey', 'secretekey');
 $region = 'us-east-1';
 
@@ -111,13 +113,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Create an item to be inserted into the table
     $item = [
-        'fullname' => ['S' => $fullname],
-        'age' => ['N' => $age],
-        'occupation' => ['S' => $occupation],
-        'nationality' => ['S' => $nationality],
-        'maritalstatus' => ['S' => $maritalstatus],
-        'email' => ['S' => $email]
-    ];
+      'Fullname' => ['S' => $fullname],
+      'age' => ['N' => $age],
+      'occupation' => ['S' => $occupation],
+      'nationality' => ['S' => $nationality],
+      'maritalstatus' => ['S' => $maritalstatus],
+      'email' => ['S' => $email]
+  ];
+  
 
     // Put the item into the DynamoDB table
     $result = $dynamodb->putItem([
