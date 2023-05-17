@@ -1,9 +1,0 @@
-FROM php
-# Copy the contents of the web app to the container
-COPY . /workspace/Deploy-web-app-to-connect-aws-dynamodb-data/Frontend/
-
-# Set the working directory to the web app folder
-WORKDIR /workspace/Deploy-web-app-to-connect-aws-dynamodb-data/Frontend/
-
-EXPOSE 8000
-CMD ["php", "-S", "0.0.0.0:8000"]
