@@ -85,14 +85,21 @@
 require 'vendor/autoload.php';
 
 use Aws\DynamoDb\DynamoDbClient;
+use Aws\Ses\SesClient;
 
 // Set up AWS credentials and region
-
-$credentials = new Aws\Credentials\Credentials('Aaccesskey', 'secretekey');
+$credentials = new Aws\Credentials\Credentials('accesskey', 'secretkey');
 $region = 'us-east-1';
 
 // Create a DynamoDB client
 $dynamodb = new DynamoDbClient([
+    'version' => 'latest',
+    'credentials' => $credentials,
+    'region' => $region
+]);
+
+// Create an AWS SES client
+$sesClient = new SesClient([
     'version' => 'latest',
     'credentials' => $credentials,
     'region' => $region
@@ -113,14 +120,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Create an item to be inserted into the table
     $item = [
-      'Fullname' => ['S' => $fullname],
-      'age' => ['N' => $age],
-      'occupation' => ['S' => $occupation],
-      'nationality' => ['S' => $nationality],
-      'maritalstatus' => ['S' => $maritalstatus],
-      'email' => ['S' => $email]
-  ];
-  
+        'Fullname' => ['S' => $fullname],
+        'age' => ['N' => $age],
+        'occupation' => ['S' => $occupation],
+        'nationality' => ['S' => $nationality],
+        'maritalstatus' => ['S' => $maritalstatus],
+        'email' => ['S' => $email]
+    ];
 
     // Put the item into the DynamoDB table
     $result = $dynamodb->putItem([
@@ -130,9 +136,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check the result
     if ($result['@metadata']['statusCode'] === 200) {
-        echo 'User registration successful!';
-    } else {
-        echo 'User registration failed.';
-    }
+      echo 'User registration successful!';
+  } else {
+      echo 'User registration failed.';
+  }
+
+  // Send an email notification
+  $message = "A new user has registered:\n\nFull Name: " . $fullname . "\nEmail: " . $email . "\nNationality: " . $nationality;
+
+  $sesClient->sendEmail([
+      'Source' => 'example@sourceemail.com',
+      'Destination' => [
+          'ToAddresses' => ['example@destinationemail.com']
+      ],
+      'Message' => [
+          'Subject' => [
+              'Data' => 'New User Registration',
+          ],
+          'Body' => [
+              'Text' => [
+                  'Data' => $message,
+              ],
+          ],
+      ],
+  ]);
 }
 ?>
