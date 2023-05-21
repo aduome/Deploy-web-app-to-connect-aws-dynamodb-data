@@ -86,6 +86,7 @@ require 'vendor/autoload.php';
 
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\Ses\SesClient;
+use Aws\CloudWatch\CloudWatchClient;
 
 // Set up AWS credentials and region
 $credentials = new Aws\Credentials\Credentials('accesskey', 'secretkey');
@@ -100,6 +101,13 @@ $dynamodb = new DynamoDbClient([
 
 // Create an AWS SES client
 $sesClient = new SesClient([
+    'version' => 'latest',
+    'credentials' => $credentials,
+    'region' => $region
+]);
+
+// Create an AWS CloudWatch client
+$cloudWatchClient = new CloudWatchClient([
     'version' => 'latest',
     'credentials' => $credentials,
     'region' => $region
@@ -134,31 +142,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Item' => $item
     ]);
 
-    // Check the result
+   // Check the result
     if ($result['@metadata']['statusCode'] === 200) {
       echo 'User registration successful!';
   } else {
       echo 'User registration failed.';
   }
+        // Publish a custom metric to CloudWatch
+        $cloudWatchClient->putMetricData([
+            'Namespace' => 'UserRegistration',
+            'MetricData' => [
+                [
+                    'MetricName' => 'RegistrationCount',
+                    'Dimensions' => [
+                        [
+                            'Name' => 'RegistrationType',
+                            'Value' => 'User'
+                        ]
+                    ],
+                    'Unit' => 'Count',
+                    'Value' => 1
+                ]
+            ]
+        ]);
+    
 
-  // Send an email notification
-  $message = "A new user has registered:\n\nFull Name: " . $fullname . "\nEmail: " . $email . "\nNationality: " . $nationality;
+    // Send an email notification
+    $message = "A new user has registered:\n\nFull Name: " . $fullname . "\nEmail: " . $email . "\nNationality: " . $nationality;
 
-  $sesClient->sendEmail([
-      'Source' => 'example@sourceemail.com',
-      'Destination' => [
-          'ToAddresses' => ['example@destinationemail.com']
-      ],
-      'Message' => [
-          'Subject' => [
-              'Data' => 'New User Registration',
-          ],
-          'Body' => [
-              'Text' => [
-                  'Data' => $message,
-              ],
-          ],
-      ],
-  ]);
+    $sesClient->sendEmail([
+        'Source' => 'sourceemailaddress.com',
+        'Destination' => [
+            'ToAddresses' => ['destinationemail.com']
+        ],
+        'Message' => [
+            'Subject' => [
+                'Data' => 'New User Registration',
+            ],
+            'Body' => [
+                'Text' => [
+                    'Data' => $message,
+                ],
+            ],
+        ],
+    ]);
 }
 ?>
