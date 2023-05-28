@@ -1,5 +1,7 @@
 {
     "require": {
-        "aws/aws-sdk-php": "^3.269"
+      "aws/aws-sdk-php": "^3.0",
+      "sendinblue/api-v3-sdk": "^8.0"
     }
-}
+  }
+  

@@ -85,8 +85,11 @@
 require 'vendor/autoload.php';
 
 use Aws\DynamoDb\DynamoDbClient;
-use Aws\Ses\SesClient;
 use Aws\CloudWatch\CloudWatchClient;
+use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\SendSmtpEmail;
+use SendinBlue\Client\ApiException;
 
 // Set up AWS credentials and region
 $credentials = new Aws\Credentials\Credentials('accesskey', 'secretkey');
@@ -94,13 +97,6 @@ $region = 'us-east-1';
 
 // Create a DynamoDB client
 $dynamodb = new DynamoDbClient([
-    'version' => 'latest',
-    'credentials' => $credentials,
-    'region' => $region
-]);
-
-// Create an AWS SES client
-$sesClient = new SesClient([
     'version' => 'latest',
     'credentials' => $credentials,
     'region' => $region
@@ -142,49 +138,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Item' => $item
     ]);
 
-   // Check the result
+    // Check the result
     if ($result['@metadata']['statusCode'] === 200) {
-      echo 'User registration successful!';
-  } else {
-      echo 'User registration failed.';
-  }
-        // Publish a custom metric to CloudWatch
-        $cloudWatchClient->putMetricData([
-            'Namespace' => 'UserRegistration',
-            'MetricData' => [
-                [
-                    'MetricName' => 'RegistrationCount',
-                    'Dimensions' => [
-                        [
-                            'Name' => 'RegistrationType',
-                            'Value' => 'User'
-                        ]
-                    ],
-                    'Unit' => 'Count',
-                    'Value' => 1
-                ]
-            ]
-        ]);
-    
+        echo 'User registration successful! You will receive a success registration email soon. Check your SPAM folder if it delays.';
+    } else {
+        echo 'User registration failed.';
+    }
 
-    // Send an email notification
-    $message = "A new user has registered:\n\nFull Name: " . $fullname . "\nEmail: " . $email . "\nNationality: " . $nationality;
-
-    $sesClient->sendEmail([
-        'Source' => 'sourceemailaddress.com',
-        'Destination' => [
-            'ToAddresses' => ['destinationemail.com']
-        ],
-        'Message' => [
-            'Subject' => [
-                'Data' => 'New User Registration',
-            ],
-            'Body' => [
-                'Text' => [
-                    'Data' => $message,
+    // Publish a custom metric to CloudWatch
+    $cloudWatchClient->putMetricData([
+        'Namespace' => 'UserRegistration',
+        'MetricData' => [
+            [
+                'MetricName' => 'RegistrationCount',
+                'Dimensions' => [
+                    [
+                        'Name' => 'RegistrationType',
+                        'Value' => 'User'
+                    ]
                 ],
-            ],
-        ],
+                'Unit' => 'Count',
+                'Value' => 1
+            ]
+        ]
     ]);
+
+    // Send an email notification using SendinBlue
+    $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', 'your-api-key');
+    $apiInstance = new TransactionalEmailsApi(new \GuzzleHttp\Client(), $config);
+
+    $senderEmail = 'your-email-address'; // Replace with your sender email address
+    $recipientEmail = $email; // Use the user's email address as the recipient
+
+    // Create an instance of SendSmtpEmail
+    $sendSmtpEmail = new SendSmtpEmail([
+        'subject' => 'Successful Registration',
+        'htmlContent' => '<p>Thank you for registering with us. Welcome to Team Github Family. Here are your details:</p><ul><li>Full Name: ' . $fullname . '</li><li>Email: ' . $email . '</li><li>Nationality: ' . $nationality . '</li></ul>',
+        'sender' => ['email' => $senderEmail],
+        'to' => [['email' => $recipientEmail]],
+    ]);
+
+    try {
+        // Send the email using SendinBlue API
+        $response = $apiInstance->sendTransacEmail($sendSmtpEmail);
+        echo 'User registration email sent!';
+    } catch (ApiException $e) {
+        echo 'User registration email failed to send. Error: ' . $e->getMessage();
+    }
 }
 ?>
