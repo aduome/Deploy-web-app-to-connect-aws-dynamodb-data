@@ -70,21 +70,57 @@ Replace `<ECR_REPOSITORY_URI>` with the URI of your ECR repository and `<AWS_REG
 
 - Create a cluster and configure the desired number of tasks and their placement.
 - Launch the tasks using the configured task definition.
+
 ## Usage
 1. Access the user registration form by using the public URL or the IP address of the Fargate tasks.
 2. Fill in the form fields with the required information and click the "Submit" button.
 3. The form data will be stored in the DynamoDB table, and an email notification will be sent to the user.
 4. Custom metrics will be published to CloudWatch, allowing you to monitor the user registration activity.
+### Using LocalHost
+1. Start a PHP server to run the application locally. In the project directory, run the following command:
+```
+php -S localhost:8000
+```
+- Open a web browser and navigate to `http://localhost:8000` to access the user registration form.
+
+- Fill in the form fields with the required information and click the "Submit" button.
+
+- The form data will be stored in the DynamoDB table, and an email notification will be sent to the user.
+
 ## Monitoring with CloudWatch
 - Configure CloudWatch Alarms to receive notifications when specific conditions are met, such as high registration rates or failures.
 - Use CloudWatch Dashboards to create customized visualizations and monitor the user registration metrics over time.
 - Set up CloudWatch Event Rules to trigger actions based on specific events, such as sending notifications or invoking AWS Lambda functions.
+### Publish a custom metric to CloudWatch
+```
+ $cloudWatchClient->putMetricData([
+        'Namespace' => 'UserRegistration',
+        'MetricData' => [
+            [
+                'MetricName' => 'RegistrationCount',
+                'Dimensions' => [
+                    [
+                        'Name' => 'RegistrationType',
+                        'Value' => 'User'
+                    ]
+                ],
+                'Unit' => 'Count',
+                'Value' => 1
+            ]
+        ]
+    ]);
+
+```
+This section publishes a custom metric to the CloudWatch service. It uses the `putMetricData` method of the CloudWatch client to send metric data. The metric data configuration should be provided inside the `MetricData` parameter.
+
 ## License
 This project is licensed under the MIT License.
 Feel free to customize and modify the code to fit your specific needs.
+
 ## Acknowledgments
 This code is based on the AWS SDK for PHP and the SendinBlue PHP SDK.
 <!-- CONTACT -->
+
 ## Contact
 
 Daniel Agyei - [@my_linkedin](https://www.linkedin.com/in/daniel-owusu-banahene-agyei-3a4172136)
