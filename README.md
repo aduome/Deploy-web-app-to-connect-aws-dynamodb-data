@@ -28,9 +28,10 @@ Before running this code, ensure that you have the following prerequisites:
 - Docker installed on your system
 - AWS CLI installed and configured with the appropriate credentials and permissions
 ## Configuration
-1. Clone the repository or download the code files to your local system.
+1. Clone the repository or download the code files to your local system. [Github Repo](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data)
 
-2. Open the index.php file and configure the following variables:
+2. Open the [index.php](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data/blob/main/index.php)
+ file and configure the following variables:
 
 - `$credentials`: Set your AWS access key and secret key.
 - `$region`: Set the AWS region where your DynamoDB, CloudWatch, and ECR services are located.
@@ -69,3 +70,40 @@ Replace `<ECR_REPOSITORY_URI>` with the URI of your ECR repository and `<AWS_REG
 
 - Create a cluster and configure the desired number of tasks and their placement.
 - Launch the tasks using the configured task definition.
+## Usage
+1. Access the user registration form by using the public URL or the IP address of the Fargate tasks.
+2. Fill in the form fields with the required information and click the "Submit" button.
+3. The form data will be stored in the DynamoDB table, and an email notification will be sent to the user.
+4. Custom metrics will be published to CloudWatch, allowing you to monitor the user registration activity.
+## Monitoring with CloudWatch
+- Configure CloudWatch Alarms to receive notifications when specific conditions are met, such as high registration rates or failures.
+- Use CloudWatch Dashboards to create customized visualizations and monitor the user registration metrics over time.
+- Set up CloudWatch Event Rules to trigger actions based on specific events, such as sending notifications or invoking AWS Lambda functions.
+## License
+This project is licensed under the MIT License.
+Feel free to customize and modify the code to fit your specific needs.
+## Acknowledgments
+This code is based on the AWS SDK for PHP and the SendinBlue PHP SDK.
+<!-- CONTACT -->
+## Contact
+
+Daniel Agyei - [@my_linkedin](https://www.linkedin.com/in/daniel-owusu-banahene-agyei-3a4172136)
+
+Email: [My Email](daniel.agyeibanahene@gmail.com)
+
+Project Link: [Project Link](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- References -->
+## References
+
+### Useful Resources And Links
+
+* [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+* [Composer Cheat sheet](https://devhints.io/composer)
+* [Docker Cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf)
+* [GitHub Pages](https://pages.github.com)
+* [Gitpod](https://www.gitpod.io/)
+* [Chat GPT](https://chat.openai.com/auth/login)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
