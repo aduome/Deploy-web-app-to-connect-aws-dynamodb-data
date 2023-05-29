@@ -13,8 +13,8 @@
 
 
 ## About The Project
-## The project have four major tasks which are:
 The App should now have the ability to add new records, send notifications on app activity and also view data from the DynamoDB. Explore the Deliverables Menu option to derive insights on the details required.
+
 ## User Registration Form
 This is a simple user registration form implemented in PHP. It allows users to enter their personal information and submit the form. The submitted data is stored in an AWS DynamoDB table, and an email notification is sent to the user using the SendinBlue service. The application is designed to run on AWS Fargate, and it publishes custom metrics to CloudWatch.
 
@@ -27,6 +27,9 @@ Before running this code, ensure that you have the following prerequisites:
 - A SendinBlue account with an API key
 - Docker installed on your system
 - AWS CLI installed and configured with the appropriate credentials and permissions
+## Architectural Diagram
+![Architectural Diagram of the Project](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data/blob/main/Photos/Azubi%20Team%20Github%20Project%204_Updated%20with%20SendinBlue_Brevo.pdf)
+
 ## Configuration
 1. Clone the repository or download the code files to your local system. [Github Repo](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data)
 
