@@ -4,7 +4,7 @@
 
 <a name="readme-top"></a>
 ## Collaborations
-#### This is a hand-on cloud engineering project delivered by the azubi africa cloud team in 2023. After 6 months of AWS cloud training and front-end development, we got a chance to work on some realife cloud projects. It focuses on working with dynamo dB, docker, composer, AWS ECS, Fargate and other AWS Services. I was able to work with:
+#### This is a hand-on cloud engineering project delivered by the azubi africa cloud team in 2023. After 6 months of AWS cloud training and front-end development, we got a chance to work on some realife cloud projects. It focuses on working with dynamo dB, Docker, Composer, AWS ECS, Fargate and other AWS Services as well as a third-party email service (Brevo-formally SendinBlue). I was able to work with:
 
 1. Fahad Mohammed [@_linkedin](https://www.linkedin.com/in/fahad-mohammed2)
 2. Dotse Dossou [@ linkedin](https://www.linkedin.com/in/dotse-dossou)
@@ -13,7 +13,7 @@
 
 
 ## About The Project
-The App should now have the ability to add new records, send notifications on app activity and also view data from the DynamoDB. Explore the Deliverables Menu option to derive insights on the details required.
+The web App should now have the ability to add new records, send notifications on app activity and also view data from the DynamoDB. 
 
 ## User Registration Form
 This is a simple user registration form implemented in PHP. It allows users to enter their personal information and submit the form. The submitted data is stored in an AWS DynamoDB table, and an email notification is sent to the user using the SendinBlue service. The application is designed to run on AWS Fargate, and it publishes custom metrics to CloudWatch.
@@ -28,7 +28,9 @@ Before running this code, ensure that you have the following prerequisites:
 - Docker installed on your system
 - AWS CLI installed and configured with the appropriate credentials and permissions
 ## Architectural Diagram
-![Architectural Diagram of the Project](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data/blob/main/Photos/Azubi%20Team%20Github%20Project%204_Updated%20with%20SendinBlue_Brevo.pdf)
+The architectural diagram below shows the various AWS services and other third-party services needed to run the project successfully.
+
+![Architectural Diagram of the Project](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data/blob/main/Photos/Azubi%20Team%20Github%20Project%204_Updated%20with%20SendinBlue_Brevo.png)
 
 ## Configuration
 1. Clone the repository or download the code files to your local system. [Github Repo](https://github.com/aduome/Deploy-web-app-to-connect-aws-dynamodb-data)
@@ -74,6 +76,8 @@ Replace `<ECR_REPOSITORY_URI>` with the URI of your ECR repository and `<AWS_REG
 - Create a cluster and configure the desired number of tasks and their placement.
 - Launch the tasks using the configured task definition.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Usage
 1. Access the user registration form by using the public URL or the IP address of the Fargate tasks.
 2. Fill in the form fields with the required information and click the "Submit" button.
@@ -89,6 +93,8 @@ php -S localhost:8000
 - Fill in the form fields with the required information and click the "Submit" button.
 
 - The form data will be stored in the DynamoDB table, and an email notification will be sent to the user.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Monitoring with CloudWatch
 - Configure CloudWatch Alarms to receive notifications when specific conditions are met, such as high registration rates or failures.
@@ -117,11 +123,12 @@ php -S localhost:8000
 This section publishes a custom metric to the CloudWatch service. It uses the `putMetricData` method of the CloudWatch client to send metric data. The metric data configuration should be provided inside the `MetricData` parameter.
 
 ## License
-This project is licensed under the MIT License.
-Feel free to customize and modify the code to fit your specific needs.
+- This project is licensed under the GNU General Public License v3.0.
+- Feel free to customize and modify the code to fit your specific needs.
 
 ## Acknowledgments
 This code is based on the AWS SDK for PHP and the SendinBlue PHP SDK.
+
 <!-- CONTACT -->
 
 ## Contact
