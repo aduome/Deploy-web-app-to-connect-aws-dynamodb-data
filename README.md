@@ -9,11 +9,9 @@
 1. Fahad Mohammed [@_linkedin](https://www.linkedin.com/in/fahad-mohammed2)
 2. Dotse Dossou [@ linkedin](https://www.linkedin.com/in/dotse-dossou)
 3. Joseph Baako [@ linkedin](https://www.linkedin.com/in/joseph-baako)
-4.  Darko Larbi [@_linkedin](https://www.linkedin.com/in/kdarkolarbi)
-
 
 ## About The Project
-The web App should now have the ability to add new records, send notifications on app activity and also view data from the DynamoDB. 
+The web App should have the ability to add new records, send notifications on app activity and also view data from the DynamoDB. 
 
 ## User Registration Form
 This is a simple user registration form implemented in PHP. It allows users to enter their personal information and submit the form. The submitted data is stored in an AWS DynamoDB table, and an email notification is sent to the user using the SendinBlue service. The application is designed to run on AWS Fargate, and it publishes custom metrics to CloudWatch.
