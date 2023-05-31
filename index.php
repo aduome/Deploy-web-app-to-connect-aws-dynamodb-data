@@ -77,6 +77,8 @@
 
     <input type="submit" value="Submit">
   </form>
+
+  <p>Click <a href="fetch_data.php">here</a> to view all registrations.</p>
 </body>
 </html>
 
